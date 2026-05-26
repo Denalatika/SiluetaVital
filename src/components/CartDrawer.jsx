@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { X, Plus, Minus, Trash2, ShoppingCart } from 'lucide-react';
 import { useCart } from '../context/CartContext';
-import { generateOrderNumber, createWhatsAppLink } from '../utils/whatsapp';
+import { generateOrderNumber } from '../utils/whatsapp';
 import { jsPDF } from 'jspdf';
 import autoTable from 'jspdf-autotable';
 import { useNavigate } from 'react-router-dom';
@@ -24,13 +24,6 @@ const CartDrawer = () => {
   const goToCheckout = () => {
     setIsCartOpen(false);
     navigate('/checkout');
-  };
-
-  const handleWhatsAppCheckout = () => {
-    if (cartItems.length === 0) return;
-    const currentOrderNumber = orderNumber || generateOrderNumber();
-    const link = createWhatsAppLink(cartItems, currentOrderNumber);
-    window.open(link, '_blank');
   };
 
   const handleDownloadPDF = () => {
@@ -204,9 +197,6 @@ const CartDrawer = () => {
             <div className="flex flex-col gap-3">
               <button onClick={goToCheckout} className="w-full flex items-center justify-center gap-2 bg-accent hover:bg-accent-dark text-white py-4 px-6 rounded-xl font-bold text-lg shadow-lg hover-lift transition-all">
                 Pagar Ahora
-              </button>
-              <button onClick={handleWhatsAppCheckout} className="w-full flex items-center justify-center gap-2 bg-primary/10 text-primary-dark hover:bg-primary/20 py-3 px-6 rounded-xl font-bold transition-all">
-                Finalizar por WhatsApp
               </button>
               <button onClick={handleDownloadPDF} className="w-full text-center py-2 text-xs text-gray-400 hover:text-gray-600">
                 Descargar lista (PDF)

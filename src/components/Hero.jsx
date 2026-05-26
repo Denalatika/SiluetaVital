@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { createSupportWhatsAppLink } from '../utils/whatsapp';
 
 const Hero = () => {
   // COMENTARIO: Cambiar textos de la sección princial, colores y la imagen de ilustración.
@@ -23,8 +24,8 @@ const Hero = () => {
             </p>
 
             <div className="flex flex-col sm:flex-row items-center justify-center lg:justify-start space-y-4 sm:space-y-0 sm:space-x-4">
-              <a href={WHATSAPP_LINK} target="_blank" rel="noopener noreferrer" className="w-full sm:w-auto px-8 py-4 bg-accent text-white font-semibold rounded-md hover:bg-accent-dark transition-all hover-lift text-center">
-                Pedir por WhatsApp
+              <a href={createSupportWhatsAppLink()} target="_blank" rel="noopener noreferrer" className="w-full sm:w-auto px-8 py-4 bg-accent text-white font-semibold rounded-md hover:bg-accent-dark transition-all hover-lift text-center">
+                Asesoría por WhatsApp
               </a>
               <Link to="/productos" className="w-full sm:w-auto px-8 py-4 bg-white text-accent border border-accent font-semibold rounded-md hover:bg-accent/10 transition-all hover-lift text-center">
                 Ver productos

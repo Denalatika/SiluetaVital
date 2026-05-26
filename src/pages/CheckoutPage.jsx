@@ -2,6 +2,10 @@ import React, { useState } from 'react';
 import { useCart } from '../context/CartContext';
 import { ChevronLeft, Lock, Truck, CreditCard, CheckCircle2 } from 'lucide-react';
 import { Link, useNavigate } from 'react-router-dom';
+import { initMercadoPago, Wallet } from '@mercadopago/sdk-react';
+
+// Inicializar Mercado Pago
+initMercadoPago(import.meta.env.VITE_MP_PUBLIC_KEY || 'TEST-00000000-0000-0000-0000-000000000000', { locale: 'es-MX' });
 
 const CheckoutPage = () => {
   const { cartItems, totalPrice, clearCart } = useCart();
@@ -19,6 +23,7 @@ const CheckoutPage = () => {
   });
 
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [preferenceId, setPreferenceId] = useState(null);
 
   if (cartItems.length === 0) {
     return (
@@ -88,21 +93,30 @@ const CheckoutPage = () => {
 
       console.log("Envío completado satisfactoriamente.");
 
-      // 2. Preparar mensaje de WhatsApp como respaldo
-      const mensajeWA = `Hola Silueta Vital! 👋%0A%0AHe realizado un nuevo pedido desde el sitio web:%0A%0A*Pedido:* ${orderNumber}%0A*Cliente:* ${formData.nombre} ${formData.apellidos}%0A*Productos:* ${productosResumen}%0A*Total:* $${totalPrice.toFixed(2)}%0A%0A_Los datos de envío ya han sido registrados en el sistema._`;
-      
-      const whatsappUrl = `https://wa.me/526311357128?text=${mensajeWA}`; 
+      // 2. Crear Preferencia de Mercado Pago
+      const preferenceResponse = await fetch('/api/create-preference', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          items: cartItems,
+          orderNumber: orderNumber
+        })
+      });
 
-      // 3. Finalizar
-      clearCart();
-      setTimeout(() => {
-        window.open(whatsappUrl, '_blank');
-        navigate('/');
-      }, 800); // Un poco más de tiempo para asegurar el envío
+      const preferenceData = await preferenceResponse.json();
+
+      if (preferenceData.id) {
+        setPreferenceId(preferenceData.id);
+        setStep(2);
+      } else {
+        throw new Error('No se recibió ID de preferencia');
+      }
       
     } catch (error) {
       console.error("Error al procesar el pedido:", error);
-      alert("Hubo un detalle al procesar tu pedido. Por favor, intenta de nuevo o contáctanos por WhatsApp.");
+      alert("Hubo un detalle al procesar tu pedido. Por favor, intenta de nuevo más tarde o contáctanos por WhatsApp.");
     } finally {
       setIsSubmitting(false);
     }
@@ -222,17 +236,26 @@ const CheckoutPage = () => {
               </div>
 
               {/* Botón de acción */}
-              <button
-                type="submit"
-                className="w-full bg-accent hover:bg-accent-dark text-white py-5 rounded-xl font-bold text-lg shadow-lg transition-all hover-lift flex items-center justify-center"
-              >
-                Finalizar Pedido <Lock size={18} className="ml-2" />
-              </button>
-              
-              <p className="text-center text-xs text-gray-500 mt-4 flex items-center justify-center">
-                <CheckCircle2 size={14} className="mr-1 text-green-500" /> 
-                Tus datos están protegidos con encriptación de 256 bits
-              </p>
+              {step === 1 ? (
+                <>
+                  <button
+                    type="submit"
+                    className="w-full bg-accent hover:bg-accent-dark text-white py-5 rounded-xl font-bold text-lg shadow-lg transition-all hover-lift flex items-center justify-center"
+                  >
+                    Ir a Pagar <Lock size={18} className="ml-2" />
+                  </button>
+                  
+                  <p className="text-center text-xs text-gray-500 mt-4 flex items-center justify-center">
+                    <CheckCircle2 size={14} className="mr-1 text-green-500" /> 
+                    Tus datos están protegidos con encriptación de 256 bits
+                  </p>
+                </>
+              ) : (
+                <div className="mt-8 bg-gray-50 p-6 rounded-xl border border-gray-200">
+                  <h3 className="text-lg font-bold mb-4 text-center text-primary">Completa tu pago seguro</h3>
+                  <Wallet initialization={{ preferenceId }} customization={{ texts: { valueProp: 'security_safety' } }} />
+                </div>
+              )}
             </div>
           </form>
         </div>

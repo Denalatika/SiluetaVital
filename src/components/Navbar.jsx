@@ -2,13 +2,13 @@ import React, { useState } from 'react';
 import { Menu, X, Leaf, ShoppingCart, Settings } from 'lucide-react';
 import { NavLink, Link } from 'react-router-dom';
 import { useCart } from '../context/CartContext';
+import { createSupportWhatsAppLink } from '../utils/whatsapp';
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const { totalItems, setIsCartOpen } = useCart();
 
-  // COMENTARIO: Cambiar logo, colores y enlace de WhatsApp aquí si es necesario
-  const WHATSAPP_LINK = "https://wa.link/vm7xa4"; // Reemplaza con tu enlace
+  const WHATSAPP_LINK = createSupportWhatsAppLink();
   const LOGO_TEXT = "Silueta Vital"; // Reemplaza con tu logo o texto
 
   const closeMenu = () => setIsOpen(false);
@@ -55,9 +55,9 @@ const Navbar = () => {
                 </span>
               )}
             </button>
-            <Link to="/contacto" className="bg-accent hover:bg-accent-dark text-white px-6 py-2 rounded-md transition-colors font-medium hover-lift">
-              Contacto
-            </Link>
+            <a href={WHATSAPP_LINK} target="_blank" rel="noopener noreferrer" className="bg-accent hover:bg-accent-dark text-white px-6 py-2 rounded-md transition-colors font-medium hover-lift">
+              Soporte
+            </a>
           </div>
 
           {/* Mobile Menu & Cart Button */}
@@ -91,9 +91,9 @@ const Navbar = () => {
             <NavLink to="/productos" onClick={closeMenu} className={mobileNavLinkClass}>Productos</NavLink>
             <NavLink to="/beneficios" onClick={closeMenu} className={mobileNavLinkClass}>Beneficios</NavLink>
             <NavLink to="/nosotros" onClick={closeMenu} className={mobileNavLinkClass}>Nosotros</NavLink>
-            <Link to="/contacto" onClick={closeMenu} className="block px-3 py-2 text-primary font-medium hover:bg-gray-50 rounded-md">
-              Contacto
-            </Link>
+            <a href={WHATSAPP_LINK} target="_blank" rel="noopener noreferrer" onClick={closeMenu} className="block px-3 py-2 text-primary font-medium hover:bg-gray-50 rounded-md">
+              Soporte
+            </a>
           </div>
         </div>
       )}
