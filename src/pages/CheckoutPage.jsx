@@ -72,32 +72,20 @@ const CheckoutPage = () => {
     setIsSubmitting(true);
 
     const orderNumber = `PED-${new Date().getTime().toString().slice(-6)}`;
-    const productosResumen = cartItems.map(item => `${item.cantidad}x ${item.nombre}`).join(', ');
-    const MAKE_WEBHOOK_URL = 'https://hook.us1.make.com/tu-webhook-aqui';
 
     const payload = {
-      pedido_no: orderNumber,
-      email: formData.email,
-      nombre: formData.nombre,
-      apellidos: formData.apellidos,
-      direccion: formData.direccion,
-      ciudad: formData.ciudad,
-      estado: formData.estado,
-      codigoPostal: formData.codigoPostal,
-      telefono: formData.telefono,
-      productos: cartItems.map(item => ({
+      orderNumber,
+      items: cartItems.map(item => ({
         id: item.id,
         nombre: item.nombre,
         cantidad: item.cantidad,
         precio: item.precio
-      })),
-      productos_resumen: productosResumen,
-      total: Number(totalPrice.toFixed(2))
+      }))
     };
 
     try {
-      // Enviar datos al Webhook de Make.com
-      const response = await fetch(MAKE_WEBHOOK_URL, {
+      // Enviar datos a la API de Mercado Pago local / Vercel
+      const response = await fetch('/api/create-preference', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -111,15 +99,11 @@ const CheckoutPage = () => {
 
       const data = await response.json();
 
-      // Make.com debe devolvernos el enlace de pago de Mercado Pago (init_point)
-      if (data && data.init_point) {
-        clearCart();
-        // Redirigir al usuario al entorno seguro de Mercado Pago
-        window.location.href = data.init_point;
+      if (data && data.id) {
+        setPreferenceId(data.id);
+        setStep(2); // Pasamos al paso 2 para mostrar el botón de Mercado Pago seguro
       } else {
-        // En caso de que se haya procesado pero no haya link, se asume éxito sin pago en línea
-        clearCart();
-        navigate('/');
+        throw new Error('No se recibió el Preference ID de Mercado Pago');
       }
       
     } catch (error) {
@@ -293,7 +277,16 @@ const CheckoutPage = () => {
               ) : (
                 <div className="mt-8 bg-gray-50 p-6 rounded-xl border border-gray-200">
                   <h3 className="text-lg font-bold mb-4 text-center text-primary">Completa tu pago seguro</h3>
-                  <Wallet initialization={{ preferenceId }} customization={{ texts: { valueProp: 'security_safety' } }} />
+                  {preferenceId && (
+                    <Wallet initialization={{ preferenceId }} customization={{ texts: { valueProp: 'security_safety' } }} />
+                  )}
+                  <button
+                    type="button"
+                    onClick={() => setStep(1)}
+                    className="w-full text-center text-sm text-gray-500 hover:text-accent font-medium mt-6 flex items-center justify-center transition-all"
+                  >
+                    <ChevronLeft size={16} className="mr-1" /> Modificar datos de envío
+                  </button>
                 </div>
               )}
             </div>
