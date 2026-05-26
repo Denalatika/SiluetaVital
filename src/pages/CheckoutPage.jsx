@@ -112,7 +112,9 @@ const CheckoutPage = () => {
             body: JSON.stringify({
               pedido_no: orderNumber,
               preferencia_id: data.id,
-              estado_pago: 'PENDIENTE',
+              estado_pago: 'Pendiente',
+              fecha: new Date().toLocaleString('es-MX', { timeZone: 'America/Mexico_City' }),
+              nombre_completo: `${formData.nombre} ${formData.apellidos}`,
               email: formData.email,
               nombre: formData.nombre,
               apellidos: formData.apellidos,
