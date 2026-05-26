@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useCart } from '../context/CartContext';
 import { ChevronLeft, Lock, Truck, CreditCard, CheckCircle2 } from 'lucide-react';
 import { Link, useNavigate } from 'react-router-dom';
@@ -11,19 +11,44 @@ const CheckoutPage = () => {
   const { cartItems, totalPrice, clearCart } = useCart();
   const navigate = useNavigate();
   const [step, setStep] = useState(1); // 1: Datos, 2: Pago
-  const [formData, setFormData] = useState({
-    email: '',
-    nombre: '',
-    apellidos: '',
-    direccion: '',
-    ciudad: '',
-    estado: '',
-    codigoPostal: '',
-    telefono: ''
+  const [formData, setFormData] = useState(() => {
+    const saved = localStorage.getItem('checkout_form_data');
+    if (saved) {
+      try {
+        return JSON.parse(saved);
+      } catch (e) {
+        console.error("Error al cargar datos guardados:", e);
+      }
+    }
+    return {
+      email: '',
+      nombre: '',
+      apellidos: '',
+      direccion: '',
+      ciudad: '',
+      estado: '',
+      codigoPostal: '',
+      telefono: ''
+    };
+  });
+
+  const [rememberInfo, setRememberInfo] = useState(() => {
+    const saved = localStorage.getItem('checkout_remember_info');
+    return saved !== 'false'; // Activo por defecto
   });
 
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [preferenceId, setPreferenceId] = useState(null);
+
+  useEffect(() => {
+    if (rememberInfo) {
+      localStorage.setItem('checkout_form_data', JSON.stringify(formData));
+      localStorage.setItem('checkout_remember_info', 'true');
+    } else {
+      localStorage.removeItem('checkout_form_data');
+      localStorage.setItem('checkout_remember_info', 'false');
+    }
+  }, [formData, rememberInfo]);
 
   if (cartItems.length === 0) {
     return (
@@ -48,75 +73,58 @@ const CheckoutPage = () => {
 
     const orderNumber = `PED-${new Date().getTime().toString().slice(-6)}`;
     const productosResumen = cartItems.map(item => `${item.cantidad}x ${item.nombre}`).join(', ');
+    const MAKE_WEBHOOK_URL = 'https://hook.us1.make.com/tu-webhook-aqui';
 
-    // 1. Datos para Google Sheets (usando URLSearchParams para máxima compatibilidad)
-    const params = new URLSearchParams();
-    params.append('pedido_no', orderNumber);
-    params.append('email', formData.email);
-    params.append('nombre', formData.nombre);
-    params.append('apellidos', formData.apellidos);
-    params.append('direccion', formData.direccion);
-    params.append('ciudad', formData.ciudad);
-    params.append('estado', formData.estado);
-    params.append('codigoPostal', formData.codigoPostal);
-    params.append('telefono', formData.telefono);
-    params.append('productos', productosResumen);
-    params.append('total', totalPrice.toFixed(2));
+    const payload = {
+      pedido_no: orderNumber,
+      email: formData.email,
+      nombre: formData.nombre,
+      apellidos: formData.apellidos,
+      direccion: formData.direccion,
+      ciudad: formData.ciudad,
+      estado: formData.estado,
+      codigoPostal: formData.codigoPostal,
+      telefono: formData.telefono,
+      productos: cartItems.map(item => ({
+        id: item.id,
+        nombre: item.nombre,
+        cantidad: item.cantidad,
+        precio: item.precio
+      })),
+      productos_resumen: productosResumen,
+      total: Number(totalPrice.toFixed(2))
+    };
 
     try {
-      // 1. Enviar a Google Sheets vía GET (El método más infalible)
-      const baseUrl = 'https://script.google.com/macros/s/AKfycbzm5jekCvV04lBkVyMRFhw6lvXH7bXHeAJ5m2A15ta_kC7y61focSgzDe8odvirT8Lo/exec';
-      const params = new URLSearchParams({
-        pedido_no: orderNumber,
-        email: formData.email || '',
-        nombre: formData.nombre || '',
-        apellidos: formData.apellidos || '',
-        direccion: formData.direccion || '',
-        ciudad: formData.ciudad || '',
-        estado: formData.estado || '',
-        codigoPostal: formData.codigoPostal || '',
-        telefono: formData.telefono || '',
-        productos: productosResumen || '',
-        total: totalPrice.toFixed(2)
-      });
-
-      // Usamos una etiqueta <img> como truco definitivo si fetch falla (esto siempre funciona)
-      const beacon = new Image();
-      beacon.src = `${baseUrl}?${params.toString()}`;
-
-      // También intentamos fetch por si acaso
-      await fetch(`${baseUrl}?${params.toString()}`, {
-        method: 'GET',
-        mode: 'no-cors',
-        cache: 'no-cache'
-      });
-
-      console.log("Envío completado satisfactoriamente.");
-
-      // 2. Crear Preferencia de Mercado Pago
-      const preferenceResponse = await fetch('/api/create-preference', {
+      // Enviar datos al Webhook de Make.com
+      const response = await fetch(MAKE_WEBHOOK_URL, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({
-          items: cartItems,
-          orderNumber: orderNumber
-        })
+        body: JSON.stringify(payload)
       });
 
-      const preferenceData = await preferenceResponse.json();
+      if (!response.ok) {
+        throw new Error('Error al contactar con el servidor de pagos');
+      }
 
-      if (preferenceData.id) {
-        setPreferenceId(preferenceData.id);
-        setStep(2);
+      const data = await response.json();
+
+      // Make.com debe devolvernos el enlace de pago de Mercado Pago (init_point)
+      if (data && data.init_point) {
+        clearCart();
+        // Redirigir al usuario al entorno seguro de Mercado Pago
+        window.location.href = data.init_point;
       } else {
-        throw new Error('No se recibió ID de preferencia');
+        // En caso de que se haya procesado pero no haya link, se asume éxito sin pago en línea
+        clearCart();
+        navigate('/');
       }
       
     } catch (error) {
       console.error("Error al procesar el pedido:", error);
-      alert("Hubo un detalle al procesar tu pedido. Por favor, intenta de nuevo más tarde o contáctanos por WhatsApp.");
+      alert("Hubo un problema al generar el enlace de pago. Por favor, intenta de nuevo o contáctanos.");
     } finally {
       setIsSubmitting(false);
     }
@@ -180,6 +188,7 @@ const CheckoutPage = () => {
                     name="nombre"
                     placeholder="Nombre"
                     className="p-3 border border-gray-300 rounded-lg outline-none focus:ring-2 focus:ring-accent"
+                    value={formData.nombre}
                     onChange={handleInputChange}
                   />
                   <input
@@ -188,6 +197,7 @@ const CheckoutPage = () => {
                     name="apellidos"
                     placeholder="Apellidos"
                     className="p-3 border border-gray-300 rounded-lg outline-none focus:ring-2 focus:ring-accent"
+                    value={formData.apellidos}
                     onChange={handleInputChange}
                   />
                 </div>
@@ -197,6 +207,7 @@ const CheckoutPage = () => {
                   name="direccion"
                   placeholder="Dirección (Calle y número)"
                   className="w-full mt-4 p-3 border border-gray-300 rounded-lg outline-none focus:ring-2 focus:ring-accent"
+                  value={formData.direccion}
                   onChange={handleInputChange}
                 />
                 <div className="grid grid-cols-3 gap-4 mt-4">
@@ -206,6 +217,7 @@ const CheckoutPage = () => {
                     name="ciudad"
                     placeholder="Ciudad"
                     className="p-3 border border-gray-300 rounded-lg outline-none focus:ring-2 focus:ring-accent"
+                    value={formData.ciudad}
                     onChange={handleInputChange}
                   />
                   <input
@@ -214,6 +226,7 @@ const CheckoutPage = () => {
                     name="estado"
                     placeholder="Estado"
                     className="p-3 border border-gray-300 rounded-lg outline-none focus:ring-2 focus:ring-accent"
+                    value={formData.estado}
                     onChange={handleInputChange}
                   />
                   <input
@@ -222,6 +235,7 @@ const CheckoutPage = () => {
                     name="codigoPostal"
                     placeholder="C.P."
                     className="p-3 border border-gray-300 rounded-lg outline-none focus:ring-2 focus:ring-accent"
+                    value={formData.codigoPostal}
                     onChange={handleInputChange}
                   />
                 </div>
@@ -231,8 +245,34 @@ const CheckoutPage = () => {
                   name="telefono"
                   placeholder="Teléfono"
                   className="w-full mt-4 p-3 border border-gray-300 rounded-lg outline-none focus:ring-2 focus:ring-accent"
+                  value={formData.telefono}
                   onChange={handleInputChange}
                 />
+                
+                {/* Recordar información para futuras compras */}
+                <div className="mt-6 flex items-center space-x-3 bg-gray-50 p-4 rounded-xl border border-gray-200 transition-all hover:bg-gray-100/50">
+                  <label className="relative flex items-center cursor-pointer select-none">
+                    <input
+                      type="checkbox"
+                      className="sr-only peer"
+                      checked={rememberInfo}
+                      onChange={(e) => setRememberInfo(e.target.checked)}
+                    />
+                    <div className="w-5 h-5 bg-white border-2 border-gray-300 rounded-md transition-all peer-checked:bg-accent peer-checked:border-accent flex items-center justify-center">
+                      <svg
+                        className="w-3.5 h-3.5 text-white opacity-0 transition-opacity peer-checked:opacity-100"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                      >
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="3" d="M5 13l4 4L19 7" />
+                      </svg>
+                    </div>
+                  </label>
+                  <span className="text-sm text-gray-600 font-medium">
+                    Recordar mi información de contacto y envío para futuras compras
+                  </span>
+                </div>
               </div>
 
               {/* Botón de acción */}
