@@ -3,4 +3,7 @@ dist
 .DS_Store
 ._*
 .vercel
-node_modules
+.env
+.env.local
+.env.*.local
+*.local
