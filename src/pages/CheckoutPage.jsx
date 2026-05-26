@@ -100,6 +100,39 @@ const CheckoutPage = () => {
       const data = await response.json();
 
       if (data && data.id) {
+        // Enviar datos al Webhook de Make.com de forma asíncrona si está configurado (resiliente)
+        const makeWebhookUrl = import.meta.env.VITE_MAKE_WEBHOOK_URL;
+        if (makeWebhookUrl) {
+          const productosResumen = cartItems.map(item => `${item.cantidad}x ${item.nombre}`).join(', ');
+          fetch(makeWebhookUrl, {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+              pedido_no: orderNumber,
+              preferencia_id: data.id,
+              estado_pago: 'PENDIENTE',
+              email: formData.email,
+              nombre: formData.nombre,
+              apellidos: formData.apellidos,
+              direccion: formData.direccion,
+              ciudad: formData.ciudad,
+              estado: formData.estado,
+              codigoPostal: formData.codigoPostal,
+              telefono: formData.telefono,
+              productos: cartItems.map(item => ({
+                id: item.id,
+                nombre: item.nombre,
+                cantidad: item.cantidad,
+                precio: item.precio
+              })),
+              productos_resumen: productosResumen,
+              total: Number(totalPrice.toFixed(2))
+            })
+          }).catch(err => console.error("Error al notificar a Make.com:", err));
+        }
+
         setPreferenceId(data.id);
         setStep(2); // Pasamos al paso 2 para mostrar el botón de Mercado Pago seguro
       } else {
