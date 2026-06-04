@@ -113,7 +113,16 @@ const CheckoutPage = () => {
               pedido_no: orderNumber,
               preferencia_id: data.id,
               estado_pago: 'Pendiente',
-              fecha: new Date().toLocaleString('es-MX', { timeZone: 'America/Mexico_City' }),
+              fecha: new Date().toLocaleString('es-MX', {
+                timeZone: 'America/Mexico_City',
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric',
+                hour: '2-digit',
+                minute: '2-digit',
+                second: '2-digit',
+                hour12: false
+              }),
               nombre_completo: `${formData.nombre} ${formData.apellidos}`,
               email: formData.email,
               nombre: formData.nombre,
