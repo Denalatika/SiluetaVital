@@ -16,9 +16,9 @@ const Footer = () => {
           <div className="col-span-1 md:col-span-2 lg:col-span-1">
             <div className="flex items-center mb-6">
               <img
-                src="/images/logo_3d.webp"
-                alt="Silueta Vital"
-                className="h-16 w-auto brightness-0 invert"
+                src="/images/logo_oficial.jpg"
+                alt="Silueta Vital Oficial"
+                className="h-16 w-auto rounded-lg"
               />
             </div>
             <div className="flex space-x-4">
