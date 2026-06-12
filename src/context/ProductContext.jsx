@@ -10,10 +10,18 @@ export const ProductProvider = ({ children }) => {
     
     try {
       const parsed = JSON.parse(savedProducts);
+      let currentProducts = parsed;
+      
+      // Sincronización automática: Agregar productos nuevos que estén en el código pero no en el localStorage del usuario
+      initialData.forEach(defaultProduct => {
+        if (!currentProducts.find(p => String(p.id) === String(defaultProduct.id))) {
+          currentProducts.push(defaultProduct);
+        }
+      });
       
       // MIGRACIÓN SUAVE: En lugar de resetear todo y perder el estado 'hidden', 
       // actualizamos solo las rutas y precios si detectamos que son antiguos.
-      const hasOldData = parsed.some(p => 
+      const hasOldData = currentProducts.some(p => 
         (p.imagen && (p.imagen.includes(' ') || p.imagen.includes('Imagenes'))) || 
         !p.precio || 
         p.precio === 0
@@ -21,7 +29,7 @@ export const ProductProvider = ({ children }) => {
       
       if (hasOldData) {
         console.log("Actualizando datos antiguos preservando estados...");
-        return parsed.map(p => {
+        return currentProducts.map(p => {
           let updated = { ...p };
           if (p.imagen && (p.imagen.includes(' ') || p.imagen.includes('Imagenes'))) {
             updated.imagen = p.imagen.replace(/ /g, '_').replace('Imagenes_Recortadas', 'images').replace('Imagenes_Nuevas', 'images');
@@ -35,7 +43,7 @@ export const ProductProvider = ({ children }) => {
           return updated;
         });
       }
-      return parsed;
+      return currentProducts;
     } catch (e) {
       return initialData;
     }
