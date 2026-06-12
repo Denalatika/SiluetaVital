@@ -139,7 +139,7 @@ const CheckoutPage = () => {
                 precio: item.precio
               })),
               productos_resumen: productosResumen,
-              total: Number(totalPrice.toFixed(2))
+              total: Number((totalPrice + 180).toFixed(2))
             })
           }).catch(err => console.error("Error al notificar a Make.com:", err));
         }
@@ -373,17 +373,17 @@ const CheckoutPage = () => {
               <span className="font-bold text-gray-900">${totalPrice.toFixed(2)}</span>
             </div>
             <div className="flex justify-between text-gray-600">
-              <span className="flex items-center italic">Envío <Truck size={14} className="ml-1" /></span>
-              <span className="text-green-600 font-medium italic">Gratis</span>
+              <span className="flex items-center">Envío <Truck size={14} className="ml-1" /></span>
+              <span className="font-bold text-gray-900">$180.00</span>
             </div>
             <div className="border-t border-gray-200 pt-4 flex justify-between items-end">
               <div>
                 <p className="text-lg font-bold text-gray-900 uppercase">Total</p>
-                <p className="text-xs text-gray-400">Impuestos incluidos</p>
+                <p className="text-xs text-gray-400">Impuestos y envío incluidos</p>
               </div>
               <p className="text-3xl font-extrabold text-primary">
                 <span className="text-sm text-gray-400 font-normal mr-2">MXN</span>
-                ${totalPrice.toFixed(2)}
+                ${(totalPrice + 180).toFixed(2)}
               </p>
             </div>
           </div>

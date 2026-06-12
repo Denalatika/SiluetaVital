@@ -36,6 +36,15 @@ export default async function handler(req, res) {
       currency_id: 'MXN'
     }));
 
+    // Agregamos el costo de envío
+    mpItems.push({
+      id: 'envio',
+      title: 'Costo de envío',
+      unit_price: 180,
+      quantity: 1,
+      currency_id: 'MXN'
+    });
+
     const preference = new Preference(client);
     
     const body = {
