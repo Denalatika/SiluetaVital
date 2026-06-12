@@ -1,5 +1,27 @@
 export const productosData = [
   {
+    "id": 1800000000000,
+    "nombre": "E-Detox Plus",
+    "imagen": "/images/e-detox-plus.jpg",
+    "descripcionCorta": "Limpia tu cuerpo y renueva tu energía con E-Detox Plus. Desintoxica, purifica y activa tu bienestar.",
+    "descripcionLarga": "E-Detox Plus (Perfect Weight Plus) Herbal Slimming Capsule. Un producto diseñado para desintoxicar tu organismo, apoyar el control de peso, ayudar a limpiar el colon, purificar y eliminar toxinas y mantener tu bienestar digestivo.",
+    "categoria": "Suplemento Naturista",
+    "beneficios": [
+      "Desintoxica tu organismo",
+      "Apoya el control de peso",
+      "Ayuda a limpiar el colon",
+      "Purifica y elimina toxinas",
+      "Bienestar digestivo"
+    ],
+    "advertencia": "Este producto no sustituye la orientación ni el tratamiento de un médico profesional.",
+    "modoDeUso": "Consultar etiqueta del envase o indicaciones de un especialista.",
+    "boton": "Pedir por WhatsApp",
+    "enlace": "https://wa.link/vm7xa4",
+    "precio": 450,
+    "hidden": false,
+    "descuento": ""
+  },
+  {
     "id": 1,
     "nombre": "LIPO HD 360",
     "imagen": "/images/uploaded_lipo_hd_360_1_main.webp",
