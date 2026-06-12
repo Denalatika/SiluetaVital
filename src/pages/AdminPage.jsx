@@ -56,7 +56,7 @@ const AdminPage = () => {
   });
 
   // COMENTARIO: Cambia la contraseña aquí
-  const ADMIN_PASSWORD = "admin";
+  const ADMIN_PASSWORD = "siluetavitaladmin";
 
   const handleLogin = (e) => {
     e.preventDefault();
