@@ -29,12 +29,12 @@ const Navbar = () => {
               <img
                 src="/images/logo_icon.jpg"
                 alt="Icono Silueta Vital"
-                className="h-20 w-auto mr-2"
+                className="h-20 w-auto mr-2 rounded-full"
               />
               <img
-                src="/images/logo_3d.jpg"
+                src="/images/logo_texto.png"
                 alt="Silueta Vital"
-                className="h-28 w-auto absolute -top-6 left-20 z-10 drop-shadow-2xl max-w-none"
+                className="h-28 w-auto absolute -top-4 left-20 z-10 drop-shadow-2xl max-w-none"
               />
             </Link>
           </div>
