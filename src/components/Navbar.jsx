@@ -27,12 +27,12 @@ const Navbar = () => {
           <div className="flex-shrink-0 flex items-center cursor-pointer">
             <Link to="/" onClick={closeMenu} className="relative h-20 w-72 flex items-center">
               <img
-                src="/images/logo_icon.jpg"
+                src="/images/logo_icon_transparent.png"
                 alt="Icono Silueta Vital"
-                className="h-20 w-auto mr-2 rounded-full"
+                className="h-20 w-auto mr-2"
               />
               <img
-                src="/images/logo_texto.png"
+                src="/images/logo_3d.png"
                 alt="Silueta Vital"
                 className="h-28 w-auto absolute -top-4 left-20 z-10 drop-shadow-2xl max-w-none"
               />
