@@ -1,27 +1,5 @@
 export const productosData = [
   {
-    "id": 1800000000000,
-    "nombre": "E-Detox Plus",
-    "imagen": "/images/e-detox-plus.jpg",
-    "descripcionCorta": "Limpia tu cuerpo y renueva tu energía con E-Detox Plus. Desintoxica, purifica y activa tu bienestar.",
-    "descripcionLarga": "E-Detox Plus (Perfect Weight Plus) Herbal Slimming Capsule. Un producto diseñado para desintoxicar tu organismo, apoyar el control de peso, ayudar a limpiar el colon, purificar y eliminar toxinas y mantener tu bienestar digestivo.",
-    "categoria": "Suplemento Naturista",
-    "beneficios": [
-      "Desintoxica tu organismo",
-      "Apoya el control de peso",
-      "Ayuda a limpiar el colon",
-      "Purifica y elimina toxinas",
-      "Bienestar digestivo"
-    ],
-    "advertencia": "Este producto no sustituye la orientación ni el tratamiento de un médico profesional.",
-    "modoDeUso": "Consultar etiqueta del envase o indicaciones de un especialista.",
-    "boton": "Pedir por WhatsApp",
-    "enlace": "https://wa.link/vm7xa4",
-    "precio": 450,
-    "hidden": false,
-    "descuento": ""
-  },
-  {
     "id": 1,
     "nombre": "LIPO HD 360",
     "imagen": "/images/uploaded_lipo_hd_360_1_main.webp",
@@ -120,7 +98,7 @@ export const productosData = [
   {
     "id": 34,
     "nombre": "Lida DAIDAIHUA Plus",
-    "imagen": "/images/uploaded_lida_daidaihua_plus_34_main.webp",
+    "imagen": "/images/synced_lida_daidaihua_plus_34_main.webp",
     "descripcionCorta": "Lida Daidaihua Plus ofrece apoyo práctico para objetivos de bienestar y autocuidado.",
     "descripcionLarga": "Su presentación en cápsulas facilita integrarlo a una rutina enfocada en decisiones alimenticias conscientes, actividad física y constancia, acompañando procesos personales de cuidado corporal con uso responsable y moderado diario.\n",
     "categoria": "Suplemento Naturista",
@@ -136,7 +114,30 @@ export const productosData = [
     "precio": "630",
     "hidden": false,
     "descuento": "",
-    "imagenDetalle": "/images/uploaded_lida_daidaihua_plus_34_detail.webp"
+    "imagenDetalle": "/images/synced_lida_daidaihua_plus_34_detail.webp"
+  },
+  {
+    "nombre": "E-Detox Plus",
+    "imagen": "/images/synced_e_detox_plus_1781294137506_main.jpg",
+    "imagenDetalle": "/images/synced_e_detox_plus_1781294137506_detail.jpg",
+    "descripcionCorta": "E-Detox Perfect Weight Plus es un suplemento herbal ",
+    "descripcionLarga": "E-Detox Perfect Weight Plus es un suplemento herbal en cápsulas pensado para personas que desean complementar su estilo de vida saludable de forma práctica y sencilla. Su presentación de 30 cápsulas lo hace fácil de integrar a una rutina diaria orientada al bienestar, el equilibrio y el cuidado personal.",
+    "categoria": "Suplemento Naturista",
+    "beneficios": [
+      "Complementa tu rutina saludable",
+      "apoyo al bienestar diario",
+      "fórmula herbal",
+      "fácil de integrar al día a día",
+      "presentación práctica en cápsulas",
+      "ideal para hábitos de cuidado personal",
+      "acompaña una alimentación balanceada",
+      "apoya una vida activa."
+    ],
+    "advertencia": "",
+    "modoDeUso": "",
+    "precio": "450",
+    "descuento": "",
+    "id": 1781294137506
   },
   {
     "id": 26,
@@ -225,7 +226,7 @@ export const productosData = [
   {
     "id": 11,
     "nombre": "CHUPA Panza",
-    "imagen": "/images/uploaded_chupa_panza_11_main.webp",
+    "imagen": "/images/synced_chupa_panza_11_main.webp",
     "descripcionCorta": "Chupa Panza complementa tu rutina saludable con cápsulas prácticas y uso responsable.",
     "descripcionLarga": "Chupa Panza es un suplemento en cápsulas con ingredientes seleccionados para complementar hábitos saludables, alimentación equilibrada, hidratación y actividad física dentro de una rutina diaria constante, responsable y moderada.",
     "categoria": "Suplemento Naturista",

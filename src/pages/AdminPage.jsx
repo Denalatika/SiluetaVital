@@ -412,13 +412,19 @@ const AdminPage = () => {
           <button 
             onClick={() => {
               const dataStr = JSON.stringify(products, null, 2);
-              navigator.clipboard.writeText(dataStr);
-              alert("¡Datos copiados al portapapeles! Ahora puedes pegarlos en el chat.");
+              const blob = new Blob([dataStr], { type: 'application/json' });
+              const url = URL.createObjectURL(blob);
+              const a = document.createElement('a');
+              a.href = url;
+              a.download = 'productos_sync.json';
+              a.click();
+              URL.revokeObjectURL(url);
+              alert("¡Archivo 'productos_sync.json' descargado! Por favor, envíamelo aquí en el chat o colócalo en la carpeta del proyecto.");
             }}
             className="bg-primary hover:bg-primary-dark text-white px-8 py-3 rounded-xl font-bold transition-all hover-lift shadow-lg flex items-center mx-auto"
           >
             <Check className="w-5 h-5 mr-2" />
-            Copiar Datos para Sincronización (JSON)
+            Descargar Datos (JSON)
           </button>
         </div>
       </div>
