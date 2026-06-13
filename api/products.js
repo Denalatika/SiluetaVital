@@ -1,11 +1,16 @@
-import { createClient } from '@vercel/kv';
+import Redis from 'ioredis';
 
-// Creamos un cliente de KV personalizado que soporta tanto el prefijo por defecto KV_
-// como el prefijo alternativo STORAGE_ en caso de que se haya quedado el valor predeterminado de Vercel.
-const kv = createClient({
-  url: process.env.KV_REST_API_URL || process.env.STORAGE_REST_API_URL,
-  token: process.env.KV_REST_API_TOKEN || process.env.STORAGE_REST_API_TOKEN,
-});
+// Inicializamos el cliente de Redis de forma perezosa para evitar conexiones innecesarias
+let redis;
+try {
+  if (process.env.KV_REDIS_URL) {
+    redis = new Redis(process.env.KV_REDIS_URL);
+  } else {
+    console.warn("Falta la variable de entorno KV_REDIS_URL");
+  }
+} catch (err) {
+  console.error("Error al inicializar cliente de Redis:", err);
+}
 
 export default async function handler(req, res) {
   // Configuración de CORS
@@ -33,12 +38,16 @@ export default async function handler(req, res) {
     }
 
     try {
-      const products = await kv.get('productos');
-      // Si no existe la clave todavía, devolvemos un arreglo vacío para que el frontend
-      // use sus datos predeterminados.
-      return res.status(200).json({ products: products || [] });
+      if (!redis) {
+        return res.status(500).json({ error: 'Base de datos no configurada' });
+      }
+      
+      const data = await redis.get('productos');
+      // Si no existe la clave todavía, devolvemos un arreglo vacío
+      const products = data ? JSON.parse(data) : [];
+      return res.status(200).json({ products });
     } catch (error) {
-      console.error('Error al obtener productos de KV:', error);
+      console.error('Error al obtener productos de Redis:', error);
       return res.status(500).json({ error: 'Error al obtener productos de la base de datos' });
     }
   }
@@ -59,11 +68,15 @@ export default async function handler(req, res) {
         return res.status(400).json({ error: 'Los datos deben contener un arreglo de productos' });
       }
 
-      // Guardar el arreglo completo en KV
-      await kv.set('productos', products);
+      if (!redis) {
+        return res.status(500).json({ error: 'Base de datos no configurada' });
+      }
+
+      // Guardar el arreglo completo en Redis como JSON
+      await redis.set('productos', JSON.stringify(products));
       return res.status(200).json({ success: true, message: 'Productos guardados exitosamente en la base de datos' });
     } catch (error) {
-      console.error('Error al guardar productos en KV:', error);
+      console.error('Error al guardar productos en Redis:', error);
       return res.status(500).json({ error: 'Error al guardar los productos en la base de datos' });
     }
   }
