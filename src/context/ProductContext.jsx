@@ -32,7 +32,17 @@ const sanitizeProducts = (currentProducts) => {
 
 export const ProductProvider = ({ children }) => {
   const [products, setProducts] = useState(() => {
-    // Para no iniciar completamente en blanco en el primer render
+    // Intentar migrar desde el localStorage viejo del navegador si tiene datos más recientes
+    try {
+      const localData = localStorage.getItem('products');
+      if (localData) {
+        console.log("Detectados productos locales en localStorage, usando como punto de partida.");
+        return sanitizeProducts(JSON.parse(localData));
+      }
+    } catch (e) {
+      console.warn("No se pudo leer del localStorage viejo:", e);
+    }
+    // Si no hay datos viejos en localStorage, cargamos los iniciales del código
     return sanitizeProducts(initialData);
   });
   
@@ -78,7 +88,14 @@ export const ProductProvider = ({ children }) => {
               await saveProductsToDB(dbProducts);
             }
           } else {
-            console.log("La base de datos está vacía, usando datos locales predeterminados.");
+            console.log("La base de datos está vacía. Si tenemos productos de localStorage o de código, los preservamos.");
+            // Si el administrador está logueado y la base de datos de Vercel KV está en blanco,
+            // subimos automáticamente la lista actual de productos (que incluye los locales migrados)
+            // para poblar la base de datos por primera vez.
+            if (adminPassword) {
+              console.log("Poblando la base de datos vacía con tus productos actuales...");
+              await saveProductsToDB(products);
+            }
           }
         } else {
           console.warn("La API de productos devolvió un error, usando fallback local.");
