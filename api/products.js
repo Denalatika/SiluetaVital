@@ -1,4 +1,11 @@
-import { kv } from '@vercel/kv';
+import { createClient } from '@vercel/kv';
+
+// Creamos un cliente de KV personalizado que soporta tanto el prefijo por defecto KV_
+// como el prefijo alternativo STORAGE_ en caso de que se haya quedado el valor predeterminado de Vercel.
+const kv = createClient({
+  url: process.env.KV_REST_API_URL || process.env.STORAGE_REST_API_URL,
+  token: process.env.KV_REST_API_TOKEN || process.env.STORAGE_REST_API_TOKEN,
+});
 
 export default async function handler(req, res) {
   // Configuración de CORS
