@@ -24,6 +24,14 @@ export default async function handler(req, res) {
 
   // GET: Obtener los productos desde la base de datos
   if (req.method === 'GET') {
+    // Modo de depuración para ver las claves de entorno disponibles (sin exponer valores secretos)
+    if (req.query.debug === 'true') {
+      const keys = Object.keys(process.env).filter(key => 
+        key.includes('KV') || key.includes('REDIS') || key.includes('STORAGE') || key.includes('URL')
+      );
+      return res.status(200).json({ env_keys: keys });
+    }
+
     try {
       const products = await kv.get('productos');
       // Si no existe la clave todavía, devolvemos un arreglo vacío para que el frontend
