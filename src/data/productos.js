@@ -98,7 +98,7 @@ export const productosData = [
   {
     "id": 34,
     "nombre": "Lida DAIDAIHUA Plus",
-    "imagen": "/images/synced_lida_daidaihua_plus_34_main.webp",
+    "imagen": "/images/new_prod_34_main.webp",
     "descripcionCorta": "Lida Daidaihua Plus ofrece apoyo práctico para objetivos de bienestar y autocuidado.",
     "descripcionLarga": "Su presentación en cápsulas facilita integrarlo a una rutina enfocada en decisiones alimenticias conscientes, actividad física y constancia, acompañando procesos personales de cuidado corporal con uso responsable y moderado diario.\n",
     "categoria": "Suplemento Naturista",
@@ -114,12 +114,12 @@ export const productosData = [
     "precio": "630",
     "hidden": false,
     "descuento": "",
-    "imagenDetalle": "/images/synced_lida_daidaihua_plus_34_detail.webp"
+    "imagenDetalle": "/images/new_prod_34_detail.webp"
   },
   {
     "nombre": "E-Detox Plus",
-    "imagen": "/images/synced_e_detox_plus_1781294137506_main.jpg",
-    "imagenDetalle": "/images/synced_e_detox_plus_1781294137506_detail.jpg",
+    "imagen": "/images/new_prod_1781294137506_main.jpg",
+    "imagenDetalle": "/images/new_prod_1781294137506_detail.jpg",
     "descripcionCorta": "E-Detox Perfect Weight Plus es un suplemento herbal ",
     "descripcionLarga": "E-Detox Perfect Weight Plus es un suplemento herbal en cápsulas pensado para personas que desean complementar su estilo de vida saludable de forma práctica y sencilla. Su presentación de 30 cápsulas lo hace fácil de integrar a una rutina diaria orientada al bienestar, el equilibrio y el cuidado personal.",
     "categoria": "Suplemento Naturista",
@@ -226,7 +226,7 @@ export const productosData = [
   {
     "id": 11,
     "nombre": "CHUPA Panza",
-    "imagen": "/images/synced_chupa_panza_11_main.webp",
+    "imagen": "/images/new_prod_11_main.webp",
     "descripcionCorta": "Chupa Panza complementa tu rutina saludable con cápsulas prácticas y uso responsable.",
     "descripcionLarga": "Chupa Panza es un suplemento en cápsulas con ingredientes seleccionados para complementar hábitos saludables, alimentación equilibrada, hidratación y actividad física dentro de una rutina diaria constante, responsable y moderada.",
     "categoria": "Suplemento Naturista",
@@ -965,5 +965,82 @@ export const productosData = [
     "enlace": "https://wa.link/vm7xa4",
     "precio": 250,
     "hidden": true
+  },
+  {
+    "nombre": "SOS Burn Sensitive",
+    "imagen": "/images/new_prod_1781317073926_main.jpg",
+    "imagenDetalle": "/images/new_prod_1781317073926_detail.jpg",
+    "descripcionCorta": "Suplemento naturista en cápsulas diseñado para complementar una rutina de bienestar, energía y cuidado personal.",
+    "descripcionLarga": "SOS Burn Sensitive es un suplemento naturista en presentación de 30 cápsulas, formulado para personas que desean complementar su rutina diaria de bienestar de una manera práctica y sencilla. Su fórmula combina ingredientes de origen natural que pueden acompañar un estilo de vida activo, una alimentación equilibrada y hábitos saludables.",
+    "categoria": "Suplemento Naturista",
+    "beneficios": [
+      "Complementa tu rutina de bienestar",
+      "apoyo para una vida activa",
+      "fórmula naturista",
+      "presentación práctica en cápsulas",
+      "fácil de integrar al día a día",
+      "acompaña hábitos saludables",
+      "apoyo a la energía diaria",
+      "ideal para el cuidado personal",
+      "complemento para una rutina equilibrada",
+      "presentación de 30 cápsulas"
+    ],
+    "advertencia": "",
+    "modoDeUso": "",
+    "precio": "600",
+    "descuento": "",
+    "id": 1781317073926
+  },
+  {
+    "nombre": "Combo Bypass Select + Bypass Purify Night",
+    "imagen": "/images/new_prod_1781317258939_main.jpg",
+    "imagenDetalle": "/images/new_prod_1781317258939_detail.jpg",
+    "descripcionCorta": "Combo naturista de uso diario y nocturno, diseñado para complementar una rutina de bienestar, equilibrio digestivo y hábitos saludables.",
+    "descripcionLarga": "El Combo Bypass Select + Bypass Purify Night es una opción naturista pensada para quienes desean complementar su rutina de bienestar durante el día y la noche. Bypass Select está diseñado para integrarse a la rutina matutina, mientras que Bypass Purify Night acompaña el cuidado personal durante el descanso nocturno.\n",
+    "categoria": "Suplemento Naturista",
+    "beneficios": [
+      "Complemento para rutina diaria y nocturna",
+      "apoyo al bienestar general",
+      "acompaña hábitos saludables",
+      "ideal para una vida activa",
+      "apoyo al equilibrio digestivo",
+      "fórmula naturista",
+      "presentación práctica en cápsulas",
+      "fácil de integrar al día a día",
+      "acompaña el descanso nocturno",
+      "apoyo a una rutina equilibrada."
+    ],
+    "advertencia": "",
+    "modoDeUso": "",
+    "precio": "1400",
+    "descuento": "",
+    "id": 1781317258939
+  },
+  {
+    "nombre": "Natural Blueberry Colágeno Hidrolizado",
+    "imagen": "/images/new_prod_1781317379962_main.jpg",
+    "imagenDetalle": "/images/new_prod_1781317379962_detail.jpg",
+    "descripcionCorta": "Suplemento naturista en polvo sabor blueberry, con colágeno hidrolizado, ácido hialurónico, resveratrol y antioxidantes.",
+    "descripcionLarga": "Natural Blueberry es un suplemento naturista en polvo formulado con colágeno hidrolizado, ácido hialurónico, resveratrol y antioxidantes. Su presentación de 250 g permite integrarlo fácilmente a una rutina diaria, mezclándolo con agua, bebidas o preparaciones según las indicaciones del producto.\n",
+    "categoria": "Suplemento Naturista",
+    "beneficios": [
+      "Complementa tu rutina de belleza",
+      "apoyo al bienestar de la piel",
+      "fórmula con colágeno hidrolizado",
+      "contiene ácido hialurónico",
+      "con resveratrol y antioxidantes",
+      "ideal para el cuidado personal",
+      "apoyo para cabello y uñas",
+      "fácil de integrar al día a día",
+      "presentación en polvo",
+      "sabor blueberry",
+      "acompaña hábitos saludables",
+      "apoyo al bienestar general."
+    ],
+    "advertencia": "",
+    "modoDeUso": "",
+    "precio": "350",
+    "descuento": "",
+    "id": 1781317379962
   }
 ];
