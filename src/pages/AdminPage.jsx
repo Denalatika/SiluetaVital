@@ -1,9 +1,20 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Plus, Edit2, Trash2, Search, X, Check, Tag, Upload, Lock, Key, ArrowUp, ArrowDown, ChevronsUp, ChevronsDown } from 'lucide-react';
 import { useProducts } from '../context/ProductContext';
 
 const AdminPage = () => {
-  const { products, addProduct, updateProduct, deleteProduct, bulkActions, moveProduct } = useProducts();
+  const { 
+    products, 
+    isLoading, 
+    syncStatus, 
+    adminPassword, 
+    setAdminPassword, 
+    addProduct, 
+    updateProduct, 
+    deleteProduct, 
+    bulkActions, 
+    moveProduct 
+  } = useProducts();
   const [selectedIds, setSelectedIds] = useState([]);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [password, setPassword] = useState('');
@@ -58,9 +69,17 @@ const AdminPage = () => {
   // COMENTARIO: Cambia la contraseña aquí
   const ADMIN_PASSWORD = "siluetavitaladmin";
 
+  // Auto-autenticar si ya hay una contraseña válida en la sesión
+  useEffect(() => {
+    if (adminPassword === ADMIN_PASSWORD) {
+      setIsAuthenticated(true);
+    }
+  }, [adminPassword]);
+
   const handleLogin = (e) => {
     e.preventDefault();
     if (password === ADMIN_PASSWORD) {
+      setAdminPassword(password);
       setIsAuthenticated(true);
       setError('');
     } else {
@@ -106,6 +125,17 @@ const AdminPage = () => {
               Entrar al Panel
             </button>
           </form>
+        </div>
+      </div>
+    );
+  }
+
+  if (isLoading) {
+    return (
+      <div className="min-h-screen bg-background flex items-center justify-center p-4">
+        <div className="text-center space-y-4">
+          <div className="w-12 h-12 border-4 border-primary border-t-transparent rounded-full animate-spin mx-auto"></div>
+          <p className="text-gray-600 font-medium animate-pulse">Cargando catálogo en tiempo real...</p>
         </div>
       </div>
     );
@@ -403,23 +433,22 @@ const AdminPage = () => {
           </div>
         </div>
         
-        {/* SECCIÓN DE EXPORTACIÓN (Para sincronización con el desarrollador) */}
-        <div className="mt-12 p-8 bg-primary/5 rounded-2xl border-2 border-dashed border-primary/20 text-center">
-          <h3 className="text-xl font-bold text-primary mb-2">Sincronización de Datos</h3>
-          <p className="text-gray-600 mb-6 max-w-lg mx-auto">
-            Si has realizado cambios manuales en el panel y quieres que se guarden permanentemente en la web para todos los usuarios, copia los datos y envíalos al desarrollador.
+        {/* SECCIÓN DE ESTADO DE LA BASE DE DATOS */}
+        <div className="mt-12 p-8 bg-primary/5 rounded-2xl border border-primary/10 text-center">
+          <div className="flex items-center justify-center gap-3 mb-2">
+            <span className={`w-3 h-3 rounded-full ${
+              syncStatus === 'syncing' ? 'bg-amber-500 animate-pulse' :
+              syncStatus === 'synced' ? 'bg-green-500 animate-pulse' :
+              syncStatus === 'error' ? 'bg-red-500 animate-pulse' : 'bg-green-500'
+            }`} />
+            <h3 className="text-xl font-bold text-primary">Base de Datos en Tiempo Real</h3>
+          </div>
+          <p className="text-gray-600 max-w-lg mx-auto">
+            {syncStatus === 'syncing' && "Guardando cambios en Vercel KV..."}
+            {syncStatus === 'synced' && "¡Cambios guardados con éxito! Están en vivo para todos los clientes."}
+            {syncStatus === 'error' && "Error al guardar en la nube. Verifica tus credenciales de Vercel KV."}
+            {syncStatus === 'idle' && "Tu catálogo está conectado a Vercel KV. Cualquier cambio que hagas se guardará automáticamente."}
           </p>
-          <button 
-            onClick={() => {
-              const dataStr = JSON.stringify(products, null, 2);
-              navigator.clipboard.writeText(dataStr);
-              alert("¡Datos copiados al portapapeles! Ahora puedes pegarlos en el chat.");
-            }}
-            className="bg-primary hover:bg-primary-dark text-white px-8 py-3 rounded-xl font-bold transition-all hover-lift shadow-lg flex items-center mx-auto"
-          >
-            <Check className="w-5 h-5 mr-2" />
-            Copiar Datos para Sincronización (JSON)
-          </button>
         </div>
       </div>
 
