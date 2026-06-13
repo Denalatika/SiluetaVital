@@ -30,6 +30,53 @@ const sanitizeProducts = (currentProducts) => {
   return currentProducts;
 };
 
+// Función auxiliar para auto-comprimir imágenes base64 si son demasiado grandes
+const compressImageIfNeeded = (dataUrl) => {
+  return new Promise((resolve) => {
+    if (!dataUrl || !dataUrl.startsWith('data:image/')) {
+      return resolve(dataUrl);
+    }
+    // Si ya es bastante corta (menor a 100KB de texto), no hace falta comprimir
+    if (dataUrl.length < 150000) { 
+      return resolve(dataUrl);
+    }
+    
+    const img = new Image();
+    img.onload = () => {
+      const canvas = document.createElement('canvas');
+      let width = img.width;
+      let height = img.height;
+      
+      const MAX_WIDTH = 600;
+      const MAX_HEIGHT = 600;
+      
+      if (width > height) {
+        if (width > MAX_WIDTH) {
+          height *= MAX_WIDTH / width;
+          width = MAX_WIDTH;
+        }
+      } else {
+        if (height > MAX_HEIGHT) {
+          width *= MAX_HEIGHT / height;
+          height = MAX_HEIGHT;
+        }
+      }
+      
+      canvas.width = width;
+      canvas.height = height;
+      const ctx = canvas.getContext('2d');
+      ctx.drawImage(img, 0, 0, width, height);
+      
+      // Calidad al 50% (extremadamente ligera, ideal para guardar en bases de datos)
+      resolve(canvas.toDataURL('image/jpeg', 0.5));
+    };
+    img.onerror = () => {
+      resolve(dataUrl);
+    };
+    img.src = dataUrl;
+  });
+};
+
 export const ProductProvider = ({ children }) => {
   const [products, setProducts] = useState(() => {
     // Intentar migrar desde el localStorage viejo del navegador si tiene datos más recientes
@@ -127,16 +174,30 @@ export const ProductProvider = ({ children }) => {
     
     setSyncStatus('syncing');
     try {
+      // Auto-comprimir cualquier imagen base64 de la lista entera antes de mandar el payload
+      // Esto remedia automáticamente cualquier imagen pesada agregada en el pasado
+      const sanitizedList = await Promise.all(updatedList.map(async (p) => {
+        const compressedImg = await compressImageIfNeeded(p.imagen);
+        const compressedImgDet = await compressImageIfNeeded(p.imagenDetalle);
+        return {
+          ...p,
+          imagen: compressedImg,
+          imagenDetalle: compressedImgDet
+        };
+      }));
+
       const res = await fetch('/api/products', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
           'Authorization': `Bearer ${currentPassword}`
         },
-        body: JSON.stringify({ products: updatedList })
+        body: JSON.stringify({ products: sanitizedList })
       });
       
       if (res.ok) {
+        // Actualizar el estado local con las versiones optimizadas para liberar memoria del navegador
+        setProducts(sanitizedList);
         setSyncStatus('synced');
         setTimeout(() => setSyncStatus('idle'), 3000);
         return true;
