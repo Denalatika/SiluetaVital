@@ -70,10 +70,18 @@ export const ProductProvider = ({ children }) => {
           const data = await res.json();
           if (data.products && data.products.length > 0) {
             let dbProducts = sanitizeProducts([...data.products]);
-            
-            // Sincronización automática: Agregar productos nuevos que estén en el código (initialData)
-            // pero no en la base de datos de Vercel KV todavía
             let updated = false;
+            
+            // Sincronización automática: Preservar productos del estado actual (que incluye localStorage del usuario)
+            // si no están presentes en la base de datos todavía.
+            products.forEach(localProduct => {
+              if (!dbProducts.find(p => String(p.id) === String(localProduct.id))) {
+                dbProducts.push(localProduct);
+                updated = true;
+              }
+            });
+            
+            // Asegurar que cualquier producto predeterminado del código también esté presente
             initialData.forEach(defaultProduct => {
               if (!dbProducts.find(p => String(p.id) === String(defaultProduct.id))) {
                 dbProducts.push(defaultProduct);
@@ -83,7 +91,8 @@ export const ProductProvider = ({ children }) => {
             
             setProducts(dbProducts);
             
-            // Si el administrador está logueado y agregamos productos faltantes, sincronizamos con la DB
+            // Si el administrador está logueado y tuvimos que agregar productos faltantes,
+            // sincronizamos inmediatamente el catálogo completo con la base de datos en la nube.
             if (updated && adminPassword) {
               await saveProductsToDB(dbProducts);
             }
