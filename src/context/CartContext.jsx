@@ -67,6 +67,12 @@ export const CartProvider = ({ children }) => {
   const totalItems = cartItems.reduce((acc, item) => acc + item.cantidad, 0);
   const totalPrice = cartItems.reduce((acc, item) => acc + (item.precio * item.cantidad), 0);
 
+  // Lógica de mayoreo a partir de 5 piezas
+  const isWholesale = totalItems >= 5;
+  const wholesaleDiscount = isWholesale ? Number((totalPrice * 0.10).toFixed(2)) : 0;
+  const shippingCost = isWholesale ? 0 : 180;
+  const finalTotal = Number((totalPrice - wholesaleDiscount + shippingCost).toFixed(2));
+
   return (
     <CartContext.Provider
       value={{
@@ -77,6 +83,10 @@ export const CartProvider = ({ children }) => {
         clearCart,
         totalItems,
         totalPrice,
+        isWholesale,
+        wholesaleDiscount,
+        shippingCost,
+        finalTotal,
         isCartOpen,
         setIsCartOpen,
       }}

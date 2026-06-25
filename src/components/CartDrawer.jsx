@@ -7,7 +7,7 @@ import autoTable from 'jspdf-autotable';
 import { useNavigate } from 'react-router-dom';
 
 const CartDrawer = () => {
-  const { isCartOpen, setIsCartOpen, cartItems, updateQuantity, removeFromCart, clearCart, totalItems, totalPrice } = useCart();
+  const { isCartOpen, setIsCartOpen, cartItems, updateQuantity, removeFromCart, clearCart, totalItems, totalPrice, isWholesale, wholesaleDiscount, shippingCost, finalTotal } = useCart();
   const [orderNumber, setOrderNumber] = useState('');
   const navigate = useNavigate();
 
@@ -124,6 +124,9 @@ const CartDrawer = () => {
     return () => { document.body.style.overflow = 'unset'; };
   }, [isCartOpen]);
 
+  const itemsNeeded = Math.max(0, 5 - totalItems);
+  const progressPercent = Math.min(100, (totalItems / 5) * 100);
+
   if (!isCartOpen) return null;
 
   return (
@@ -161,6 +164,31 @@ const CartDrawer = () => {
             </div>
           ) : (
             <div className="space-y-4">
+              {/* Barra de progreso de Mayoreo */}
+              <div className="bg-white p-4 rounded-2xl border border-accent/20 shadow-sm space-y-2.5">
+                <div className="flex justify-between items-center text-xs">
+                  <span className="font-extrabold text-primary uppercase tracking-wider">Descuento de Mayoreo</span>
+                  <span className="font-mono bg-accent/10 text-accent px-2 py-0.5 rounded font-extrabold">{totalItems} / 5 piezas</span>
+                </div>
+                <div className="w-full bg-gray-100 h-3 rounded-full overflow-hidden p-0.5 border border-gray-200/50">
+                  <div 
+                    className={`h-full transition-all duration-500 rounded-full ${isWholesale ? 'bg-gradient-to-r from-primary to-accent animate-pulse' : 'bg-primary'}`} 
+                    style={{ width: `${progressPercent}%` }}
+                  ></div>
+                </div>
+                <p className="text-xs text-gray-600 font-medium">
+                  {isWholesale ? (
+                    <span className="text-primary font-bold flex items-center gap-1">
+                      🎉 ¡Felicidades! Se aplicó 10% de descuento y Envío GRATIS.
+                    </span>
+                  ) : (
+                    <span>
+                      Agrega <strong className="text-accent font-extrabold">{itemsNeeded} {itemsNeeded === 1 ? 'pieza más' : 'piezas más'}</strong> para activar el precio de mayoreo y envío gratis.
+                    </span>
+                  )}
+                </p>
+              </div>
+
               {cartItems.map((item) => (
                 <div key={item.id} className="flex gap-4 p-4 bg-white border border-gray-100 rounded-2xl shadow-sm relative group">
                   <div className="w-20 h-20 flex-shrink-0 bg-secondary-light rounded-xl overflow-hidden flex items-center justify-center p-2 text-gray-800">
@@ -185,16 +213,39 @@ const CartDrawer = () => {
         </div>
 
         {cartItems.length > 0 && (
-          <div className="p-4 sm:p-6 bg-white border-t border-gray-100 shadow-xl">
-            <div className="flex justify-between items-center mb-4 text-sm text-gray-800">
-              <span className="text-gray-500">Número de Pedido</span>
-              <span className="font-mono font-bold bg-gray-100 px-2 py-1 rounded">{orderNumber}</span>
+          <div className="p-4 sm:p-6 bg-white border-t border-gray-100 shadow-xl space-y-3.5">
+            <div className="flex justify-between items-center text-sm text-gray-800">
+              <span className="text-gray-500 font-medium">Número de Pedido</span>
+              <span className="font-mono font-bold bg-gray-100 px-2.5 py-1 rounded text-gray-600">{orderNumber}</span>
             </div>
-            <div className="flex justify-between items-center mb-6 text-gray-800">
-              <span className="text-gray-600 font-medium">Total</span>
-              <span className="text-2xl font-extrabold text-primary">${totalPrice.toFixed(2)}</span>
+            
+            <div className="border-t border-gray-100 pt-3 space-y-2 text-sm text-gray-700">
+              <div className="flex justify-between">
+                <span className="text-gray-500">Subtotal</span>
+                <span className="font-bold text-gray-800">${totalPrice.toFixed(2)}</span>
+              </div>
+              
+              {isWholesale && (
+                <div className="flex justify-between text-accent font-bold">
+                  <span>Descuento de Mayoreo (10%)</span>
+                  <span>-${wholesaleDiscount.toFixed(2)}</span>
+                </div>
+              )}
+              
+              <div className="flex justify-between">
+                <span className="text-gray-500">Envío</span>
+                <span className={isWholesale ? "text-primary font-bold" : "font-bold text-gray-800"}>
+                  {isWholesale ? "¡Gratis!" : `$${shippingCost.toFixed(2)}`}
+                </span>
+              </div>
             </div>
-            <div className="flex flex-col gap-3">
+            
+            <div className="border-t border-gray-100 pt-3 flex justify-between items-center text-gray-800">
+              <span className="text-gray-600 font-extrabold text-base">Total Neto</span>
+              <span className="text-2xl font-black text-primary">${finalTotal.toFixed(2)}</span>
+            </div>
+            
+            <div className="flex flex-col gap-2 pt-2">
               <button onClick={goToCheckout} className="w-full flex items-center justify-center gap-2 bg-accent hover:bg-accent-dark text-white py-4 px-6 rounded-xl font-bold text-lg shadow-lg hover-lift transition-all">
                 Pagar Ahora
               </button>

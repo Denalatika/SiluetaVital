@@ -8,7 +8,7 @@ import { initMercadoPago, Wallet } from '@mercadopago/sdk-react';
 initMercadoPago(import.meta.env.VITE_MP_PUBLIC_KEY || 'TEST-00000000-0000-0000-0000-000000000000', { locale: 'es-MX' });
 
 const CheckoutPage = () => {
-  const { cartItems, totalPrice, clearCart } = useCart();
+  const { cartItems, totalPrice, isWholesale, wholesaleDiscount, shippingCost, finalTotal, clearCart } = useCart();
   const navigate = useNavigate();
   const [step, setStep] = useState(1); // 1: Datos, 2: Pago
   const [formData, setFormData] = useState(() => {
@@ -132,14 +132,18 @@ const CheckoutPage = () => {
               estado: formData.estado,
               codigoPostal: formData.codigoPostal,
               telefono: formData.telefono,
-              productos: cartItems.map(item => ({
-                id: item.id,
-                nombre: item.nombre,
-                cantidad: item.cantidad,
-                precio: item.precio
-              })),
+              productos: cartItems.map(item => {
+                const basePrice = Number(item.precio);
+                const finalUnitPrice = isWholesale ? Number((basePrice * 0.9).toFixed(2)) : basePrice;
+                return {
+                  id: item.id,
+                  nombre: item.nombre,
+                  cantidad: item.cantidad,
+                  precio: finalUnitPrice
+                };
+              }),
               productos_resumen: productosResumen,
-              total: Number((totalPrice + 180).toFixed(2))
+              total: finalTotal
             })
           }).catch(err => console.error("Error al notificar a Make.com:", err));
         }
@@ -372,10 +376,21 @@ const CheckoutPage = () => {
               <span>Subtotal</span>
               <span className="font-bold text-gray-900">${totalPrice.toFixed(2)}</span>
             </div>
+            
+            {isWholesale && (
+              <div className="flex justify-between text-accent font-bold">
+                <span>Descuento de Mayoreo (10%)</span>
+                <span>-${wholesaleDiscount.toFixed(2)}</span>
+              </div>
+            )}
+            
             <div className="flex justify-between text-gray-600">
               <span className="flex items-center">Envío <Truck size={14} className="ml-1" /></span>
-              <span className="font-bold text-gray-900">$180.00</span>
+              <span className={isWholesale ? "font-bold text-primary" : "font-bold text-gray-900"}>
+                {isWholesale ? "¡Gratis!" : `$${shippingCost.toFixed(2)}`}
+              </span>
             </div>
+            
             <div className="border-t border-gray-200 pt-4 flex justify-between items-end">
               <div>
                 <p className="text-lg font-bold text-gray-900 uppercase">Total</p>
@@ -383,7 +398,7 @@ const CheckoutPage = () => {
               </div>
               <p className="text-3xl font-extrabold text-primary">
                 <span className="text-sm text-gray-400 font-normal mr-2">MXN</span>
-                ${(totalPrice + 180).toFixed(2)}
+                ${finalTotal.toFixed(2)}
               </p>
             </div>
           </div>

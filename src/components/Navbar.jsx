@@ -21,7 +21,15 @@ const Navbar = () => {
     `block px-3 py-2 rounded-md ${isActive ? 'text-primary font-semibold bg-gray-50' : 'text-gray-600 hover:text-primary hover:bg-gray-50'}`;
 
   return (
-    <nav className="bg-white shadow-sm sticky top-0 z-50">
+    <>
+      {/* Banner Superior Promocional */}
+      <div className="bg-gradient-to-r from-primary-dark via-primary to-accent text-white text-center py-2 px-4 text-xs sm:text-sm font-bold tracking-wide shadow-sm relative z-[51] flex items-center justify-center gap-2">
+        <span className="inline-flex items-center justify-center bg-white/20 rounded-full px-2 py-0.5 text-[10px] uppercase font-extrabold animate-pulse">
+          Descuento
+        </span>
+        <span>🔥 Envío GRATIS + 10% de descuento en tu compra a partir de 5 piezas</span>
+      </div>
+      <nav className="bg-white shadow-sm sticky top-0 z-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-20">
           <div className="flex-shrink-0 flex items-center cursor-pointer">
@@ -98,6 +106,7 @@ const Navbar = () => {
         </div>
       )}
     </nav>
+  </>
   );
 };
 
