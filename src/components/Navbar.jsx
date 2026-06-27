@@ -27,7 +27,7 @@ const Navbar = () => {
         <span className="inline-flex items-center justify-center bg-white/20 rounded-full px-2 py-0.5 text-[10px] uppercase font-extrabold animate-pulse">
           Descuento
         </span>
-        <span>🔥 Envío GRATIS + 10% de descuento en tu compra a partir de 5 piezas</span>
+        <span>🔥 Envío GRATIS en todas tus compras</span>
       </div>
       <nav className="bg-white shadow-sm sticky top-0 z-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">

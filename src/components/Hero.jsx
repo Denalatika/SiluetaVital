@@ -44,12 +44,12 @@ const Hero = () => {
               />
             </div>
 
-            {/* Elemento decorativo: Promo de Mayoreo */}
+            {/* Elemento decorativo: Promo Envío Gratis */}
             <div className="absolute -top-6 -right-6 bg-white p-4 rounded-2xl shadow-xl flex items-center space-x-3 border border-accent/20 animate-pulseSoft z-20">
-              <div className="bg-accent text-white w-10 h-10 rounded-full flex items-center justify-center font-black text-sm shadow-md animate-bounce">5+</div>
+              <div className="bg-accent text-white w-10 h-10 rounded-full flex items-center justify-center font-black text-xl shadow-md animate-bounce">🚚</div>
               <div className="text-left">
-                <p className="text-xs font-black text-accent uppercase tracking-wider">¡MAYOREO!</p>
-                <p className="text-[11px] font-bold text-gray-800 leading-tight">Envío GRATIS + 10% OFF</p>
+                <p className="text-xs font-black text-accent uppercase tracking-wider">¡PROMOCIÓN!</p>
+                <p className="text-[11px] font-bold text-gray-800 leading-tight">Envío GRATIS en todo</p>
               </div>
             </div>
 

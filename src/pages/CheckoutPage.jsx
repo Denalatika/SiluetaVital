@@ -134,7 +134,7 @@ const CheckoutPage = () => {
               telefono: formData.telefono,
               productos: cartItems.map(item => {
                 const basePrice = Number(item.precio);
-                const finalUnitPrice = isWholesale ? Number((basePrice * 0.9).toFixed(2)) : basePrice;
+                const finalUnitPrice = basePrice;
                 return {
                   id: item.id,
                   nombre: item.nombre,
@@ -377,17 +377,13 @@ const CheckoutPage = () => {
               <span className="font-bold text-gray-900">${totalPrice.toFixed(2)}</span>
             </div>
             
-            {isWholesale && (
-              <div className="flex justify-between text-accent font-bold">
-                <span>Descuento de Mayoreo (10%)</span>
-                <span>-${wholesaleDiscount.toFixed(2)}</span>
-              </div>
-            )}
+            
+            {/* Se removió el descuento del 10% de mayoreo */}
             
             <div className="flex justify-between text-gray-600">
               <span className="flex items-center">Envío <Truck size={14} className="ml-1" /></span>
-              <span className={isWholesale ? "font-bold text-primary" : "font-bold text-gray-900"}>
-                {isWholesale ? "¡Gratis!" : `$${shippingCost.toFixed(2)}`}
+              <span className="font-bold text-primary">
+                ¡Gratis!
               </span>
             </div>
             

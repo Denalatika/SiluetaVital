@@ -31,10 +31,10 @@ export default async function handler(req, res) {
     const totalQty = items.reduce((acc, item) => acc + Number(item.cantidad), 0);
     const isWholesale = totalQty >= 5;
     
-    // Mapeamos los items del carrito al formato que pide Mercado Pago aplicando el 10% si califica
+    // Mapeamos los items del carrito al formato que pide Mercado Pago
     const mpItems = items.map(item => {
       const basePrice = Number(item.precio);
-      const unitPrice = isWholesale ? Number((basePrice * 0.9).toFixed(2)) : basePrice;
+      const unitPrice = basePrice;
       return {
         id: item.id.toString(),
         title: item.nombre,
@@ -44,8 +44,8 @@ export default async function handler(req, res) {
       };
     });
 
-    // Agregamos el costo de envío (gratis si califica para mayoreo)
-    const shippingPrice = isWholesale ? 0 : 180;
+    // Agregamos el costo de envío (siempre gratis)
+    const shippingPrice = 0;
     mpItems.push({
       id: 'envio',
       title: 'Costo de envío',

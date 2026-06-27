@@ -164,29 +164,23 @@ const CartDrawer = () => {
             </div>
           ) : (
             <div className="space-y-4">
-              {/* Barra de progreso de Mayoreo */}
-              <div className="bg-white p-4 rounded-2xl border border-accent/20 shadow-sm space-y-2.5">
-                <div className="flex justify-between items-center text-xs">
-                  <span className="font-extrabold text-primary uppercase tracking-wider">Descuento de Mayoreo</span>
-                  <span className="font-mono bg-accent/10 text-accent px-2 py-0.5 rounded font-extrabold">{totalItems} / 5 piezas</span>
+              {/* Banner de Envío Gratis y Botón de Mayoreo */}
+              <div className="bg-white p-4 rounded-2xl border border-accent/20 shadow-sm space-y-4">
+                <div className="text-center">
+                  <span className="text-primary font-bold flex items-center justify-center gap-1">
+                    🎉 ¡Promoción especial! Envío GRATIS en cualquier compra.
+                  </span>
                 </div>
-                <div className="w-full bg-gray-100 h-3 rounded-full overflow-hidden p-0.5 border border-gray-200/50">
-                  <div 
-                    className={`h-full transition-all duration-500 rounded-full ${isWholesale ? 'bg-gradient-to-r from-primary to-accent animate-pulse' : 'bg-primary'}`} 
-                    style={{ width: `${progressPercent}%` }}
-                  ></div>
-                </div>
-                <p className="text-xs text-gray-600 font-medium">
-                  {isWholesale ? (
-                    <span className="text-primary font-bold flex items-center gap-1">
-                      🎉 ¡Felicidades! Se aplicó 10% de descuento y Envío GRATIS.
-                    </span>
-                  ) : (
-                    <span>
-                      Agrega <strong className="text-accent font-extrabold">{itemsNeeded} {itemsNeeded === 1 ? 'pieza más' : 'piezas más'}</strong> para activar el precio de mayoreo y envío gratis.
-                    </span>
-                  )}
-                </p>
+                
+                {/* Botón de Mayoreo */}
+                <a 
+                  href="https://wa.me/526311898889?text=Hola%20buenas%20tardes,%20deseo%20comprar%20por%20mayoreo.%20%C2%BFQu%C3%A9%20necesito%20para%20obtener%20el%20descuento%3F" 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="w-full flex items-center justify-center gap-2 bg-[#25D366] hover:bg-[#128C7E] text-white py-2 px-4 rounded-xl font-bold shadow-sm transition-all"
+                >
+                  🛍️ Quiero comprar por mayoreo
+                </a>
               </div>
 
               {cartItems.map((item) => (
@@ -225,17 +219,12 @@ const CartDrawer = () => {
                 <span className="font-bold text-gray-800">${totalPrice.toFixed(2)}</span>
               </div>
               
-              {isWholesale && (
-                <div className="flex justify-between text-accent font-bold">
-                  <span>Descuento de Mayoreo (10%)</span>
-                  <span>-${wholesaleDiscount.toFixed(2)}</span>
-                </div>
-              )}
+              {/* Se removió el descuento del 10% de mayoreo */}
               
               <div className="flex justify-between">
                 <span className="text-gray-500">Envío</span>
-                <span className={isWholesale ? "text-primary font-bold" : "font-bold text-gray-800"}>
-                  {isWholesale ? "¡Gratis!" : `$${shippingCost.toFixed(2)}`}
+                <span className="text-primary font-bold">
+                  ¡Gratis!
                 </span>
               </div>
             </div>
