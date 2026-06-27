@@ -8,7 +8,7 @@ const Nosotros = () => {
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center relative z-10">
 
             <div className="text-white">
-              <h2 className="text-3xl md:text-5xl font-extrabold mb-6 leading-tight">
+              <h2 className="text-3xl md:text-5xl font-extrabold mb-6 leading-tight font-serif">
                 Sobre Nosotros
               </h2>
               {/* COMENTARIO: Cambiar el texto de nosotros si es necesario */}

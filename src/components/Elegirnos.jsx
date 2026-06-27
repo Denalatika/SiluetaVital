@@ -26,7 +26,7 @@ const Elegirnos = () => {
               <Leaf className="w-5 h-5" />
               <span>Nuestra Promesa</span>
             </div>
-            <h2 className="text-3xl md:text-5xl font-extrabold text-gray-900 mb-6 leading-tight">
+            <h2 className="text-3xl md:text-5xl font-extrabold text-gray-900 mb-6 leading-tight font-serif">
               ¿Por qué confiar en <br/>
               <span className="text-primary">Silueta Vital?</span>
             </h2>
@@ -47,7 +47,7 @@ const Elegirnos = () => {
                     </div>
                   </div>
                   <div className="ml-4">
-                    <h4 className="text-lg font-bold text-gray-900 mb-1">{item.title}</h4>
+                    <h3 className="text-lg font-bold text-gray-900 mb-1">{item.title}</h3>
                     <p className="text-gray-600">{item.desc}</p>
                   </div>
                 </div>

@@ -53,7 +53,7 @@ const Beneficios = () => {
     <section id="beneficios" className="py-20 bg-white relative">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-16">
-          <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">¿Por qué elegir un camino natural?</h2>
+          <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4 font-serif">¿Por qué elegir un camino natural?</h2>
           <p className="text-lg text-gray-600 max-w-2xl mx-auto">
             Incorporar productos naturistas es una forma excelente de complementar tu estilo de vida y favorecer la armonía física.
           </p>
@@ -69,7 +69,7 @@ const Beneficios = () => {
               <div className="w-14 h-14 bg-white rounded-xl shadow-sm flex items-center justify-center mb-6 group-hover:bg-primary-light/30 transition-all duration-300 group-hover:-translate-y-2 group-hover:shadow-md">
                 {ben.icon}
               </div>
-              <h3 className="text-xl font-bold text-gray-900 mb-3 group-hover:text-primary-dark transition-colors">{ben.title}</h3>
+              <h3 className="text-xl font-bold text-gray-900 mb-3 group-hover:text-primary-dark transition-colors font-serif">{ben.title}</h3>
               <p className="text-gray-600 leading-relaxed mb-4">{ben.desc}</p>
               <span className="text-primary font-medium text-sm flex items-center group-hover:translate-x-2 transition-transform duration-300">
                 Saber más <span className="ml-1">→</span>

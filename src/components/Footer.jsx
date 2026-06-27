@@ -32,33 +32,33 @@ const Footer = () => {
           </div>
 
           <div>
-            <h4 className="text-white font-bold mb-6">Enlaces Rápidos</h4>
+            <h4 className="text-white font-bold mb-6 font-serif text-lg">Enlaces Rápidos</h4>
             <ul className="space-y-3 text-sm flex flex-col">
-              <Link to="/" className="hover:text-primary transition-colors hover:translate-x-1 inline-block w-max">Inicio</Link>
-              <Link to="/productos" className="hover:text-primary transition-colors hover:translate-x-1 inline-block w-max">Productos</Link>
-              <Link to="/beneficios" className="hover:text-primary transition-colors hover:translate-x-1 inline-block w-max">Beneficios</Link>
-              <Link to="/nosotros" className="hover:text-primary transition-colors hover:translate-x-1 inline-block w-max">Nosotros</Link>
+              <Link to="/" className="hover:text-accent transition-colors hover:translate-x-1 inline-block w-max text-white/80">Inicio</Link>
+              <Link to="/productos" className="hover:text-accent transition-colors hover:translate-x-1 inline-block w-max text-white/80">Productos</Link>
+              <Link to="/beneficios" className="hover:text-accent transition-colors hover:translate-x-1 inline-block w-max text-white/80">Beneficios</Link>
+              <Link to="/nosotros" className="hover:text-accent transition-colors hover:translate-x-1 inline-block w-max text-white/80">Nosotros</Link>
             </ul>
           </div>
 
           <div>
-            <h4 className="text-white font-bold mb-6">Contacto</h4>
+            <h4 className="text-white font-bold mb-6 font-serif text-lg">Contacto</h4>
             <ul className="space-y-3 text-sm">
               <li className="flex flex-col">
-                <span className="text-gray-500 mb-1">WhatsApp</span>
-                <a href={WHATSAPP_LINK} target="_blank" rel="noopener noreferrer" className="hover:text-primary transition-colors text-white font-medium">
+                <span className="text-white/55 mb-1">WhatsApp</span>
+                <a href={WHATSAPP_LINK} target="_blank" rel="noopener noreferrer" className="hover:text-accent transition-colors text-white font-medium">
                   +52 631 135 7128
                 </a>
               </li>
               <li className="flex flex-col mt-4">
-                <span className="text-gray-500 mb-1">Horario</span>
+                <span className="text-white/55 mb-1">Horario</span>
                 <span className="text-gray-300">Lunes a Sábado<br />9:00 AM - 6:00 PM</span>
               </li>
             </ul>
           </div>
 
           <div>
-            <h4 className="text-white font-bold mb-4">NUESTRA PROMESA</h4>
+            <h4 className="text-white font-bold mb-4 font-serif text-lg">NUESTRA PROMESA</h4>
             <div className="p-3 bg-white/10 rounded-xl border border-white/10">
               <p className="text-xs text-white/80 leading-relaxed italic mb-2">
                 "Nos comprometemos a brindar suplementos que entreguen todos los beneficios de la naturaleza, sin excepciones. Porque solo tienes un cuerpo."
@@ -72,12 +72,12 @@ const Footer = () => {
         </div>
 
         <div className="pt-6 border-t border-gray-800 flex flex-col md:flex-row justify-between items-center">
-          <p className="text-sm text-gray-500 mb-4 md:mb-0">
+          <p className="text-sm text-white/60 mb-4 md:mb-0">
             &copy; {new Date().getFullYear()} {LOGO_TEXT}. Todos los derechos reservados.
           </p>
-          <div className="text-sm text-white/50 flex space-x-6">
-            <a href="#" className="hover:text-white transition-colors">Términos</a>
-            <a href="#" className="hover:text-white transition-colors">Privacidad</a>
+          <div className="text-sm text-white/60 flex space-x-6">
+            <a href="#" className="hover:text-accent transition-colors">Términos</a>
+            <a href="#" className="hover:text-accent transition-colors">Privacidad</a>
           </div>
         </div>
       </div>

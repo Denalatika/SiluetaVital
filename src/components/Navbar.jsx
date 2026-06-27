@@ -15,10 +15,10 @@ const Navbar = () => {
 
   // Clases comunes para los NavLinks
   const navLinkClass = ({ isActive }) =>
-    `transition-colors ${isActive ? 'text-primary font-semibold' : 'text-gray-600 hover:text-primary'}`;
+    `transition-colors font-serif text-lg tracking-wide ${isActive ? 'text-primary font-bold' : 'text-gray-600 hover:text-primary'}`;
 
   const mobileNavLinkClass = ({ isActive }) =>
-    `block px-3 py-2 rounded-md ${isActive ? 'text-primary font-semibold bg-gray-50' : 'text-gray-600 hover:text-primary hover:bg-gray-50'}`;
+    `block px-3 py-2 rounded-md font-serif text-lg tracking-wide ${isActive ? 'text-primary font-bold bg-gray-50' : 'text-gray-600 hover:text-primary hover:bg-gray-50'}`;
 
   return (
     <>
@@ -63,7 +63,7 @@ const Navbar = () => {
                 </span>
               )}
             </button>
-            <a href="https://wa.me/526311898889?text=Hola%20buenas%20tardes,%20deseo%20comprar%20por%20mayoreo.%20%C2%BFQu%C3%A9%20necesito%20para%20obtener%20el%20descuento%3F" target="_blank" rel="noopener noreferrer" className="bg-[#25D366] hover:bg-[#128C7E] text-white px-4 py-2 rounded-md transition-colors font-bold hover-lift flex items-center shadow-sm">
+            <a href="https://wa.me/526311898889?text=Hola%20buenas%20tardes,%20deseo%20comprar%20por%20mayoreo.%20%C2%BFQu%C3%A9%20necesito%20para%20obtener%20el%20descuento%3F" target="_blank" rel="noopener noreferrer" className="bg-[#075E54] hover:bg-[#05443d] text-white px-4 py-2 rounded-md transition-colors font-bold hover-lift flex items-center shadow-sm">
               🛍️ Mayoreo
             </a>
             <a href={WHATSAPP_LINK} target="_blank" rel="noopener noreferrer" className="bg-accent hover:bg-accent-dark text-white px-6 py-2 rounded-md transition-colors font-medium hover-lift">
@@ -102,7 +102,7 @@ const Navbar = () => {
             <NavLink to="/productos" onClick={closeMenu} className={mobileNavLinkClass}>Productos</NavLink>
             <NavLink to="/beneficios" onClick={closeMenu} className={mobileNavLinkClass}>Beneficios</NavLink>
             <NavLink to="/nosotros" onClick={closeMenu} className={mobileNavLinkClass}>Nosotros</NavLink>
-            <a href="https://wa.me/526311898889?text=Hola%20buenas%20tardes,%20deseo%20comprar%20por%20mayoreo.%20%C2%BFQu%C3%A9%20necesito%20para%20obtener%20el%20descuento%3F" target="_blank" rel="noopener noreferrer" onClick={closeMenu} className="block px-3 py-2 text-[#25D366] font-bold hover:bg-gray-50 rounded-md">
+            <a href="https://wa.me/526311898889?text=Hola%20buenas%20tardes,%20deseo%20comprar%20por%20mayoreo.%20%C2%BFQu%C3%A9%20necesito%20para%20obtener%20el%20descuento%3F" target="_blank" rel="noopener noreferrer" onClick={closeMenu} className="block px-3 py-2 text-[#075E54] font-bold hover:bg-gray-50 rounded-md">
               🛍️ Comprar por Mayoreo
             </a>
             <a href={WHATSAPP_LINK} target="_blank" rel="noopener noreferrer" onClick={closeMenu} className="block px-3 py-2 text-primary font-medium hover:bg-gray-50 rounded-md">

@@ -46,7 +46,7 @@ const Testimonios = () => {
     <section className="py-20 bg-background">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-16">
-          <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">Lo que dicen nuestros clientes</h2>
+          <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4 font-serif">Lo que dicen nuestros clientes</h2>
           <p className="text-lg text-gray-600 max-w-2xl mx-auto">
             La confianza y tranquilidad de quienes nos eligen es nuestro mejor respaldo.
           </p>
@@ -68,11 +68,11 @@ const Testimonios = () => {
               </p>
               
               <div className="flex items-center">
-                <div className="w-12 h-12 bg-primary-light/30 rounded-full flex items-center justify-center text-primary-dark font-bold text-xl mr-4">
+                <div className="w-12 h-12 bg-primary rounded-full flex items-center justify-center text-white font-bold text-xl mr-4">
                   {test.name.charAt(0)}
                 </div>
                 <div>
-                  <h4 className="font-bold text-gray-900">{test.name}</h4>
+                  <h4 className="font-bold text-gray-900 font-serif text-lg">{test.name}</h4>
                   <p className="text-sm text-gray-500">{test.role}</p>
                 </div>
               </div>

@@ -18,13 +18,15 @@ export default {
           dark: '#e0e0d6'
         },
         accent: {
-          DEFAULT: '#FF6B35',
-          dark: '#E85D04'
+          light: '#FF8A50',
+          DEFAULT: '#D84A1A',
+          dark: '#B5360D'
         },
         background: '#F9F9F6'
       },
       fontFamily: {
         sans: ['Inter', 'sans-serif'],
+        serif: ['Playfair Display', 'serif'],
       },
       keyframes: {
         float: {

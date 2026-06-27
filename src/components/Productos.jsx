@@ -15,7 +15,7 @@ const Productos = () => {
     <section id="productos" className="py-20 bg-background">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-16">
-          <h2 className="text-3xl md:text-4xl font-bold text-primary mb-4">Catálogo de Productos</h2>
+          <h2 className="text-3xl md:text-4xl font-bold text-primary mb-4 font-serif">Catálogo de Productos</h2>
           <p className="text-lg text-gray-600 max-w-2xl mx-auto">
             Conoce nuestra selección completa de productos naturales diseñados para integrarse fácilmente a tu rutina de bienestar.
           </p>
@@ -42,7 +42,7 @@ const Productos = () => {
               </div>
 
               <div className="p-6 flex flex-col flex-grow">
-                <h3 className="text-lg font-bold text-primary mb-2 leading-tight">{prod.nombre}</h3>
+                <h3 className="text-lg font-bold text-primary mb-2 leading-tight font-serif">{prod.nombre}</h3>
                 <p className="text-gray-600 text-sm mb-4 min-h-[40px]">{prod.descripcionCorta}</p>
 
                 {/* Texto de beneficio tipo Badge */}
@@ -59,7 +59,7 @@ const Productos = () => {
                   <div className="flex items-end justify-between mb-4">
                     <div className="flex flex-col">
                       {prod.descuento && (
-                        <span className="text-gray-400 text-xs line-through mb-0.5">
+                        <span className="text-gray-500 text-xs line-through mb-0.5">
                           ${prod.precio}
                         </span>
                       )}

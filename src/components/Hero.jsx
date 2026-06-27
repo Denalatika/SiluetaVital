@@ -12,11 +12,11 @@ const Hero = () => {
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
 
           <div className="text-center lg:text-left z-10">
-            <div className="inline-block bg-primary-light/50 text-primary-dark font-medium px-4 py-1.5 rounded-full text-sm mb-6">
+            <div className="inline-block bg-primary/10 text-primary font-bold px-4 py-1.5 rounded-full text-sm mb-6">
               Tu opción natural y confiable
             </div>
             {/* TEXTOS: Cambia los títulos aquí */}
-            <h1 className="text-4xl md:text-5xl lg:text-6xl font-extrabold text-primary leading-tight mb-6">
+            <h1 className="text-4xl md:text-5xl lg:text-6xl font-extrabold text-primary leading-tight mb-6 font-serif">
               Silueta Vital para tu <span className="text-accent">día a día</span>
             </h1>
             <p className="text-lg md:text-xl text-gray-600 mb-8 max-w-2xl mx-auto lg:mx-0">
@@ -46,7 +46,7 @@ const Hero = () => {
 
             {/* Elemento decorativo: Promo Envío Gratis */}
             <div className="absolute -top-6 -right-6 bg-white p-4 rounded-2xl shadow-xl flex items-center space-x-3 border border-accent/20 animate-pulseSoft z-20">
-              <div className="bg-accent text-white w-10 h-10 rounded-full flex items-center justify-center font-black text-xl shadow-md animate-bounce">🚚</div>
+              <div className="bg-accent text-white w-10 h-10 rounded-full flex items-center justify-center font-black text-xl shadow-md">🚚</div>
               <div className="text-left">
                 <p className="text-xs font-black text-accent uppercase tracking-wider">¡PROMOCIÓN!</p>
                 <p className="text-[11px] font-bold text-gray-800 leading-tight">Envío GRATIS en todo</p>
