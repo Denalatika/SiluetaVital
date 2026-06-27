@@ -172,15 +172,7 @@ const CartDrawer = () => {
                   </span>
                 </div>
                 
-                {/* Botón de Mayoreo */}
-                <a 
-                  href="https://wa.me/526311898889?text=Hola%20buenas%20tardes,%20deseo%20comprar%20por%20mayoreo.%20%C2%BFQu%C3%A9%20necesito%20para%20obtener%20el%20descuento%3F" 
-                  target="_blank" 
-                  rel="noopener noreferrer"
-                  className="w-full flex items-center justify-center gap-2 bg-[#25D366] hover:bg-[#128C7E] text-white py-2 px-4 rounded-xl font-bold shadow-sm transition-all"
-                >
-                  🛍️ Quiero comprar por mayoreo
-                </a>
+                {/* Botón de Mayoreo removido, ahora está en la Navbar */}
               </div>
 
               {cartItems.map((item) => (

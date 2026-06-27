@@ -17,7 +17,7 @@ const Hero = () => {
             </div>
             {/* TEXTOS: Cambia los títulos aquí */}
             <h1 className="text-4xl md:text-5xl lg:text-6xl font-extrabold text-primary leading-tight mb-6">
-              Bienestar natural para tu <span className="text-accent">día a día</span>
+              Silueta Vital para tu <span className="text-accent">día a día</span>
             </h1>
             <p className="text-lg md:text-xl text-gray-600 mb-8 max-w-2xl mx-auto lg:mx-0">
               Encuentra productos naturistas seleccionados para apoyar tu cuerpo, complementar tu buena alimentación y sentirte mejor de manera natural cada día.
